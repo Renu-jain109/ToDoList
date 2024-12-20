@@ -17,12 +17,13 @@ ngOnInit(): void {
 };
 toDoArr : any [] = [];
 
+
 loadToDo (){
   const storeToDo = [];
   const todo = history.state?.toDo;
 if(todo ){
   this.toDoArr.push(todo);
-  storeToDo.push(this.toDoArr);
+  // storeToDo.push(this.toDoArr);
 }
 };
 }
