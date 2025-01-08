@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { TodoformComponent } from '../todoform/todoform.component';
-import { TodoformService } from '../todoform/todoform.service';
+import { DataService } from '../data.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-list',
@@ -12,18 +13,58 @@ import { TodoformService } from '../todoform/todoform.service';
   styleUrl: './todo-list.component.css'
 })
 export class TodoListComponent implements OnInit{
+  toDoArr : any [] = [];
+  dataService = inject(DataService);
+  cdr = inject(ChangeDetectorRef);
+  constructor(public sanitizer: DomSanitizer) {}
+  router = inject(Router);
+  isCompleted : boolean = false;
+  showButton : boolean = true;
+
+
 ngOnInit(): void {
   this.loadToDo();
-};
-toDoArr : any [] = [];
+  (window as any).deleteTask = this.delete.bind(this);
+  (window as any).editTask = this.edit.bind(this);
+  (window as any).markCompleted = this.markCompleted.bind(this);
 
+};
 
 loadToDo (){
-  const storeToDo = [];
-  const todo = history.state?.toDo;
-if(todo ){
-  this.toDoArr.push(todo);
-  // storeToDo.push(this.toDoArr);
-}
+this.dataService.currentMessage.subscribe((res : any)=>{
+  res;
+  this.toDoArr = res;
+  this.toDoArr = res.map((todo: any) => ({ title : todo, isCompleted: false }));
+  
+  
+})
 };
+
+delete(index: number): void {
+  if (index > -1 ) {
+    this.toDoArr.splice(index, 1);
+    this.cdr.detectChanges();
+  }
+};
+
+
+markCompleted(index: number): void {
+  this.toDoArr[index].isCompleted = true; // Mark task as completed
+  console.log(this.toDoArr[index])
+  this.cdr.detectChanges(); // Ensure the view is updated
 }
+
+edit(index : number){
+    const task = this.toDoArr[index];
+    console.log(this.router.navigate(['/editToDo'],{
+      queryParams :{
+      index : index,
+      message : JSON.stringify(task)}}));
+  
+  }
+}
+
+
+
+
+

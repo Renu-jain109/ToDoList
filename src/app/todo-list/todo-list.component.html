@@ -1,12 +1,46 @@
-<p>todo-list works!</p>
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="wrapper">
-                <div class="" *ngFor="let toDo of storeToDo">
-                    {{ toDo }}
+    <div class="card-header bg-primary text-light p-4 mt-5">
+        <h4> TO DO List</h4>
+    </div>        
+    <div class="card">
+        <div class="card-body">
+
+            <div *ngIf="toDoArr.length > 0; else noTodos" class="border d-flex flex-column gap-3">
+                <div *ngFor="let todo of toDoArr; let i = index" class="border border-dark d-flex flex-row  justify-content-between p-1 rounded">
+                  <p *ngIf="showButton || !todo.isCompleted" class="pt-2 ps-4 fs-5">{{ i + 1 }}. {{ todo.title }}</p>
+
+                  <div *ngIf="!todo.isCompleted" [innerHTML]="sanitizer.bypassSecurityTrustHtml(
+                  '<button type=\'button\' class=\'btn btn-primary me-5 pb-2\' onclick=\'editTask(' + i + ')\'>Edit </button>' + 
+                  '<button type=\'button\' class=\'btn btn-danger me-5 pb-2\' onclick=\'deleteTask(' + i + ')\'>Delete </button>' + 
+                  '<button type=\'button\' class=\'btn btn-secondary me-5 pb-2\' onclick=\'markCompleted(' + i + ')\'>Mark Completed </button>
+                    ')">
                 </div>
+
+                  <!-- <div *ngIf="!todo.isCompleted" [innerHTML]="sanitizer.bypassSecurityTrustHtml(`<button type=\'button\' class=\'btn btn-primary me-5 pb-2\' onclick=\'editTask(' + i + ')\'>Edit <\button><button type=\'button\' class=\'btn btn-danger me-5 pb-2\' onclick=\'deleteTask(' + i + ')\'>Delete <\button><button type=\'button\' class=\'btn btn-secondary me-5 pb-2\' onclick=\'markCompleted(' + i + ')\'>Mark Completed <\button>
+                    `)">
+                 <\div> -->
+
+                 <div *ngIf="todo.isCompleted">
+                    <button type="button" class="btn btn-success me-5 pb-2" disabled>Completed</button>
+                 </div>
+
+                </div>
+
             </div>
         </div>
+              
+        <ng-template #noTodos>
+            <p></p>
+        </ng-template>
     </div>
 </div>
+ 
+
+
+
+
+
+
+
+
+

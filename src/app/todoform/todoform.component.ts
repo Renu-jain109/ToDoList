@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TodoformService } from './todoform.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-todoform',
@@ -14,13 +14,13 @@ import { TodoformService } from './todoform.service';
 export class TodoformComponent {
   router = inject(Router);
 todo : any ;
-
+constructor(private dataService : DataService){}
 
 addToDo () {
   if(this.todo)
 console.log(this.todo);
-
-this.router.navigate(['/todo-list'],{state :{toDo : this.todo}});
+this.dataService.addData([this.todo]);
+this.router.navigate(['/todo-list'])
 
 }
 }
