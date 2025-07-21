@@ -16,15 +16,14 @@
 
                         <!-- Buttons column -->
                         <div class="col-12 col-md-6 text-md-end text-center">
-                            <div *ngIf="!todo.isCompleted" [innerHTML]="sanitizer.bypassSecurityTrustHtml(
-                  '<button type=\'button\' class=\'btn btn-primary me-5 pb-2\' onclick=\'editTask(' + i + ')\'>Edit </button>' + 
-                  '<button type=\'button\' class=\'btn btn-danger me-5 pb-2\' onclick=\'deleteTask(' + i + ')\'>Delete </button>' + 
-                  '<button type=\'button\' class=\'btn btn-secondary me-5 pb-2\' onclick=\'markCompleted(' + i + ')\'>Mark Completed </button>
-                    ')">
+                            <div *ngIf="!todo.isCompleted; else completed" class="d-inline">
+                                <button type="button" class="btn btn-primary me-2" (click)="edit(i)">Edit</button>
+                                <button type="button" class="btn btn-danger me-2" (click)="delete(i)">Delete</button>
+                                <button type="button" class="btn btn-secondary" (click)="markCompleted(i)">Mark Completed</button>
                             </div>
-
                             <ng-template #completed>
-                                <button type="button" class="btn btn-success btn-sm mb-2" disabled>Completed</button>
+                                <button type="button" class="btn btn-success me-2" disabled>Completed</button>
+                                <button type="button" class="btn btn-danger" (click)="delete(i)">Delete</button>
                             </ng-template>
                         </div>
                     </div>

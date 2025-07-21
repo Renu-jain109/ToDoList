@@ -24,10 +24,6 @@ export class TodoListComponent implements OnInit{
 
 ngOnInit(): void {
   this.loadToDo();
-  (window as any).deleteTask = this.delete.bind(this);
-  (window as any).editTask = this.edit.bind(this);
-  (window as any).markCompleted = this.markCompleted.bind(this);
-
 };
 
 loadToDo (){
