@@ -1,46 +1,55 @@
 <div class="container">
     <div class="card-header bg-primary text-light p-4 mt-5">
         <h4> TO DO List</h4>
-    </div>        
+    </div>
     <div class="card">
         <div class="card-body">
 
-            <div *ngIf="toDoArr.length > 0; else noTodos" class="border d-flex flex-column gap-3">
-                <div *ngFor="let todo of toDoArr; let i = index" class="border border-dark d-flex flex-row  justify-content-between p-1 rounded">
-                  <p *ngIf="showButton || !todo.isCompleted" class="pt-2 ps-4 fs-5">{{ i + 1 }}. {{ todo.title }}</p>
+            <div *ngIf="toDoArr.length > 0; else noTodos" class="container mt-3">
+                <div *ngFor="let todo of toDoArr; let i = index" class="border rounded p-3 mb-3">
 
-                  <div *ngIf="!todo.isCompleted" [innerHTML]="sanitizer.bypassSecurityTrustHtml(
+                    <div class="row align-items-center">
+                        <!-- Text column -->
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <p class="fs-5 m-0">{{ i + 1 }}. {{ todo.title }}</p>
+                        </div>
+
+                        <!-- Buttons column -->
+                        <div class="col-12 col-md-6 text-md-end text-center">
+                            <div *ngIf="!todo.isCompleted" [innerHTML]="sanitizer.bypassSecurityTrustHtml(
                   '<button type=\'button\' class=\'btn btn-primary me-5 pb-2\' onclick=\'editTask(' + i + ')\'>Edit </button>' + 
                   '<button type=\'button\' class=\'btn btn-danger me-5 pb-2\' onclick=\'deleteTask(' + i + ')\'>Delete </button>' + 
                   '<button type=\'button\' class=\'btn btn-secondary me-5 pb-2\' onclick=\'markCompleted(' + i + ')\'>Mark Completed </button>
                     ')">
-                </div>
+                            </div>
 
-                  <!-- <div *ngIf="!todo.isCompleted" [innerHTML]="sanitizer.bypassSecurityTrustHtml(`<button type=\'button\' class=\'btn btn-primary me-5 pb-2\' onclick=\'editTask(' + i + ')\'>Edit <\button><button type=\'button\' class=\'btn btn-danger me-5 pb-2\' onclick=\'deleteTask(' + i + ')\'>Delete <\button><button type=\'button\' class=\'btn btn-secondary me-5 pb-2\' onclick=\'markCompleted(' + i + ')\'>Mark Completed <\button>
-                    `)">
-                 <\div> -->
-
-                 <div *ngIf="todo.isCompleted">
-                    <button type="button" class="btn btn-success me-5 pb-2" disabled>Completed</button>
-                 </div>
+                            <ng-template #completed>
+                                <button type="button" class="btn btn-success btn-sm mb-2" disabled>Completed</button>
+                            </ng-template>
+                        </div>
+                    </div>
 
                 </div>
-
             </div>
+
+            <!-- Fallback -->
+            <ng-template #noTodos>
+                <p class="text-center fs-5">No tasks found.</p>
+            </ng-template>
+
+
+            <!-- Fallback if no todos -->
+            <ng-template #noTodos>
+                <p class="text-center fs-5">No tasks found.</p>
+            </ng-template>
+
+
+
+
         </div>
-              
+
         <ng-template #noTodos>
             <p></p>
         </ng-template>
     </div>
 </div>
- 
-
-
-
-
-
-
-
-
-
